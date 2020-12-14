@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-deployment
+  namespace: dev-02
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posts
+  template:
+    metadata:
+      labels:
+        app: posts
+    spec:
+      containers:
+        - name: posts
+          image: yinglu91/ts-m-posts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-srv
+  namespace: dev-02
+spec:
+  type: ClusterIP
+  selector:
+    app: posts
+  ports:
+    - name: posts
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
